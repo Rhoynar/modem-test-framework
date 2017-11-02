@@ -40,7 +40,7 @@ class Results:
         if len(Results.state.keys()) > 0:
             print '-------------------------------------------------------------------------------'
             print '                                     STATE'
-            pprint.pprint(Results.state, indent=4)
+            pprint.pprint(Results.state)
             print '-------------------------------------------------------------------------------'
 
         if len(Results.steps) > 0:
