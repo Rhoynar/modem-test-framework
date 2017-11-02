@@ -1,16 +1,15 @@
 import unittest
-import subprocess
-import re
-import os
-from results import *
 from utils import *
+import re
 
-class PythonDepsTestSuite(unittest.TestCase):
+class PythonChecks(unittest.TestCase):
     def test_python_location(self):
-        python_exec = run_cmd('which python')
+        python_exec = run_cmd('which python').strip()
+
         if len(python_exec) is 0:
-            SystemChecksErrors.add_error('Python not installed. Please install python using: sudo apt-get install python2.7')
-        Results.python_exec = python_exec.strip()
+            Results.add_error('which python', 'Python not installed. Please install python using: sudo apt-get install python2.7')
+        else:
+            Results.add_state('Python Exec', python_exec)
 
     def test_python_version(self):
         python_ver = run_cmd('python --version')
@@ -18,33 +17,26 @@ class PythonDepsTestSuite(unittest.TestCase):
         python_ver_minor = re.findall(r'[0-9]+', python_ver)[1]
         # Suite is developed with Python 2.7+ in mind.
         if int(python_ver_major) != 2 or int(python_ver_minor) < 7:
-            SystemChecksErrors.add_error('Python 2.7+ version not present. Please install latest python 2.7 using: sudo apt-get install python2.7')
-        Results.python_ver = python_ver.strip()
-        Results.python_ver_major = python_ver_major.strip()
-        Results.python_ver_minor = python_ver_minor.strip()
+            Results.add_error('Python 2.7+ version not present. Please install latest python 2.7 using: sudo apt-get install python2.7')
+        else:
+            Results.add_state('Python Version', python_ver.strip())
+            Results.add_state('Python Major Version', python_ver_major.strip())
+            Results.add_state('Python Minor Version', python_ver_minor.strip())
 
-    def test_user_name(self):
+    def test_check_sudo_permissions(self):
         username = os.getenv('SUDO_USER')
-        assert username is not None
         if username is None:
-            SystemChecksErrors.add_error('Program needs to be run with sudo permissions.')
-        Results.sudo_user = username
+            Results.add_error('env | grep SUDO_USER', 'Program needs to be run with sudo permissions.')
+        else:
+            Results.add_state('SUDO_USER', username.strip())
 
-    def test_pip(self):
-        pip = run_cmd('which pip')
-        assert len(pip) > 0
+    def test_check_pip(self):
+        pip = run_cmd('which pip').strip()
+
         if len(pip) == 0:
-            SystemChecksErrors.add_error('Python Package Manager (PIP) not present. Please install using: sudo apt-get install python-pip')
-        Results.pip = pip.strip()
-
-    def test_pip_version(self):
-        pip_ver = run_cmd('pip --version')
-        pip_ver_major = re.findall(r'[0-9]+', pip_ver)[0]
-
-        assert int(pip_ver_major) >= 9
-        if int(pip_ver_major) < 9:
-            SystemChecksErrors.add_error('Incorrect PIP version found. Please install latest pip using: sudo apt-get install python-pip')
-        Results.pip_ver = pip_ver.strip()
+            Results.add_error('which pip', 'Python Package Manager (PIP) not present. Please install using: sudo apt-get install python-pip')
+        else:
+            Results.add_state('pip', pip)
 
     def test_pip_pacakages(self):
         # Check if required pip packages exist
@@ -52,10 +44,12 @@ class PythonDepsTestSuite(unittest.TestCase):
 
         # For now pyserial is the only required package,
         # others may be required in future.
-        assert 'pyserial' in pip_pkgs.lower()
         if ('pyserial' not in pip_pkgs.lower()):
-            SystemChecksErrors.add_error('PySerial package not found. Please install using: pip install pyserial')
-
+            Results.add_error('pip freeze | grep pyserial', 'PySerial package not found. Please install using: pip install pyserial')
+        else:
+            Results.add_state('PySerial', True)
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(exit=False)
+    Results.print_results()
+

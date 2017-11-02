@@ -1,7 +1,6 @@
 import re
 import json
 
-
 class MMCLIParser():
     @classmethod
     def save_json(cls, obj, fname):
