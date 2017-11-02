@@ -40,9 +40,7 @@ class Results:
         if len(Results.state.keys()) > 0:
             print '-------------------------------------------------------------------------------'
             print '                                     STATE'
-            for key in Results.state.keys():
-                pprint.pprint({'state': key, 'value' : Results.state[key]}, indent=2)
-                print ''
+            pprint.pprint(Results.state, indent=4)
             print '-------------------------------------------------------------------------------'
 
         if len(Results.steps) > 0:
