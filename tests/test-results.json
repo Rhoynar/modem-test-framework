@@ -7,6 +7,6 @@
         }
     ], 
     "steps": [
-        "modem_checks.py(15): test_mmcli_cmd_present(): which mmcli"
+        "modem_checks.py(15): mmcli_cmd_present(): which mmcli"
     ]
 }
