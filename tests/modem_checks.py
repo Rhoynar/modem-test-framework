@@ -4,6 +4,8 @@ import unittest
 from system_checks import *
 from utils import *
 import re
+from mmcli_parser import MMCLIParser
+import json
 
 class ModemChecksTestSuite(unittest.TestCase):
     def test_mmcli_cmd_present(self):
@@ -20,47 +22,42 @@ class ModemChecksTestSuite(unittest.TestCase):
         SystemChecks.modem_location = re.search(r'(/org/freedesktop/ModemManager\d/Modem/\d)', mmcli).group(1)
         SystemChecks.modem_idx = re.search(r'/org/freedesktop/ModemManager\d/Modem/(\d)', SystemChecks.modem_location).group(1)
 
+    def test_sim_present(self):
+        # Modem not present, no need to run this test as same error is returned from list_modems.
+        if SystemChecks.modem_idx == -1:
+            return
+
+        mmcli = run_cmd('mmcli -m {}'.format(SystemChecks.modem_idx))
+        res = MMCLIParser.parse(mmcli)
+        if 'SIM' in res.keys() and 'Status' in res.keys() and 'state' in res['Status'].keys() and res['Status']['state'] == 'registered':
+            SystemChecks.modem_en = True
+        else:
+            SystemChecksErrors.add_error('SIM card not found/registered. Fix SIM issue and restart modem.')
+            assert 0
+
     def test_modem_enabled(self):
         mmcli = run_cmd('mmcli -m {} --simple-status'.format(SystemChecks.modem_idx))
-        if "state: 'disabled'" in mmcli:
+        res = MMCLIParser.parse(mmcli)
+        if 'Status' in res.keys() and 'state' in res['Status'].keys() and res['Status']['state'] == 'registered':
+            SystemChecks.modem_en = True
+        else:
             SystemChecksErrors.add_error('Modem not enabled. Please enable modem using: mmcli -m {} --enable'.format(SystemChecks.modem_idx))
-        assert 'enabled' in mmcli
-        SystemChecks.modem_en = True
+            assert 0
 
     def test_get_modem_info(self):
+        if SystemChecks.modem_idx == -1:
+            return
+
         mmcli = run_cmd('mmcli -m {}'.format(SystemChecks.modem_idx))
-
-        man = re.search("manufacturer: '(.+)'$", mmcli)
-        assert man is not None and man.group(1) is not None
-        if man is None or man.group(1) is None:
-            SystemChecksErrors.add_error('Modem manufacturer cannot be parsed.')
-        SystemChecks.modem_manu = man.group(1)
-
-        model = re.search("model: '(.+)'$", mmcli)
-        assert model is not None and model.group(1) is not None
-        if model is None or model.group(1) is None:
-            SystemChecksErrors.add_error('Modem model number cannot be parsed.')
-        SystemChecks.modem_model = model.group(1)
-
-
-    def test_get_modem_capabilities(self):
-        mmcli = run_cmd('mmcli -m {}'.format(SystemChecks.modem_idx))
-
-        # Find supported techs.
-        hardware_start = mmcli.find('Hardware') + len('Hardware')
-        hardware = mmcli[hardware_start:]
-        hardware_end = hardware.find('-------------------------')
-        hardware = hardware[:hardware_end]
-
-        supported_start = hardware.find('supported:') + len('supported:')
-        supported_end = hardware.find('current:')
-        supported = hardware[supported_start:supported_end]
-        SystemChecks.supported_techs = re.findall(r'[a-z0-9\-]+', supported.lower())
-
-        # Find current techs.
-        current_start = hardware.find('current:') + len('current:')
-        current = hardware[current_start:]
-        SystemChecks.current_techs = re.findall(r'[a-z0-9\-]+', current.split('\n')[0])
+        res = MMCLIParser.parse(mmcli)
+        assert 'Hardware' in res.keys()
+        assert 'System' in res.keys()
+        assert 'Numbers' in res.keys()
+        assert 'Bands' in res.keys()
+        assert 'IP' in res.keys()
+        assert 'SIM' in res.keys()
+        assert '3GPP' in res.keys()
+        SystemChecks.modem_info = res
 
     def test_wwan_interfaces(self):
         ifcfg = run_cmd('ifconfig -a')
@@ -69,4 +66,10 @@ class ModemChecksTestSuite(unittest.TestCase):
             SystemChecksErrors.add_error('wwan interface is not enumerated. Please restart network-manager using: sudo stop network-manager && sudo start network-manager')
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(exit=False)
+    print 'outputting json file.'
+    with open('test.json', 'w') as json_file:
+        json.dump(SystemChecks.modem_info, json_file, indent=4)
+
+    with open('test2.json', 'w') as json_file:
+        json.dump(SystemChecksErrors.errs, json_file, indent=4)

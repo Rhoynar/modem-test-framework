@@ -1,0 +1,45 @@
+{
+    "Status": {
+        "signal quality": "59' (recent)", 
+        "lock": "sim-pin2", 
+        "unlock retries": "sim-pin (3), sim-pin2 (3), sim-puk (10), sim-puk2 (10)", 
+        "access tech": "lte", 
+        "state": "registered", 
+        "power state": "on"
+    }, 
+    "Modes": {
+        "current": "allowed: 2g, 3g, 4g; preferred: none", 
+        "supported": "allowed: 2g, 3g, 4g; preferred: none"
+    }, 
+    "Bands": {
+        "current": "cdma-bc15-aws, dcs, egsm, pcs, g850, u2100, u1900, u850, u900, eutran-ii, eutran-iv, eutran-v, eutran-xvii", 
+        "supported": "cdma-bc0-cellular-800, cdma-bc1-pcs-1900, cdma-bc10-secondary-800, cdma-bc15-aws, dcs, egsm, pcs, g850, u2100, u1900, u17iv, u850, u900, eutran-ii, eutran-iv, eutran-v, eutran-xiii, eutran-xvii, eutran-xxv"
+    }, 
+    "3GPP": {
+        "imei": "359225050108901", 
+        "operator name": "AT&T", 
+        "enabled locks": "none", 
+        "operator id": "310410"
+    }, 
+    "System": {
+        "device": "/sys/devices/pci0000:00/0000:00:14.0/usb1/1-3", 
+        "drivers": "option1, qmi_wwan", 
+        "primary port": "cdc-wdm0", 
+        "ports": "ttyUSB2 (at), cdc-wdm0 (qmi), cdc-wdm1 (qmi), wwan1 (net), wwan0 (net)", 
+        "plugin": "Sierra"
+    }, 
+    "Hardware": {
+        "supported": "gsm-umts", 
+        "current": "gsm-umts, lte", 
+        "model": "MC7354", 
+        "equipment id": "359225050108901", 
+        "manufacturer": "Sierra Wireless, Incorporated", 
+        "revision": "SWI9X15C_05.05.58.00 r27038 carmd-fwbuild1 2015/03/04 21:30:23"
+    }, 
+    "Numbers": {
+        "own": "13035708302"
+    }, 
+    "IP": {
+        "supported": "ipv4, ipv6, ipv4v6"
+    }
+}

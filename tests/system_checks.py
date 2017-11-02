@@ -31,9 +31,8 @@ class SystemChecks:
     # Modem Info
     modem_en = False
     modem_location = ''
-    modem_idx = ''
-    modem_man = ''
-    modem_model = ''
+    modem_idx = -1
+    modem_info = {}
 
     #
     supported_techs = []
