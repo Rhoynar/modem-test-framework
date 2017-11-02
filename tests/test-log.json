@@ -1,0 +1,12 @@
+{
+    "state": {}, 
+    "errors": [
+        {
+            "comment": "mmcli is not present. Install modem manager using: sudo apt-get install modemmanager", 
+            "cmd": "which mmcli"
+        }
+    ], 
+    "steps": [
+        "modem_checks.py(12): test_mmcli_cmd_present(): which mmcli"
+    ]
+}

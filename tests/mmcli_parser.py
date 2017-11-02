@@ -9,6 +9,7 @@ class MMCLIParser():
 
     @classmethod
     def parse(cls, text):
+        # type (str) -> Object
         res = {}
         cur_sys = None
         cur_subsys = None

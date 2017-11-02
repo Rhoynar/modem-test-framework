@@ -1,7 +1,7 @@
 import unittest
 from daemons_check import *
 from python_checks import *
-from system_checks import *
+from results import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()
@@ -9,5 +9,5 @@ if __name__ == '__main__':
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(DaemonsChecksTestSuite))
     unittest.TextTestRunner().run(suite)
     SystemChecksErrors.print_errors()
-    SystemChecks.print_config()
+    Results.print_config()
 
