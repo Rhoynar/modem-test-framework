@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from results import Results
-from utils import *
 import re
-from mmcli_parser import MMCLIParser
 import json
+
+from utils import *
+from helpers import *
+from mmcli_parser import MMCLIParser
+from results import Results
+
 
 class ModemChecksTestSuite(unittest.TestCase):
     def test_mmcli_cmd_present(self):

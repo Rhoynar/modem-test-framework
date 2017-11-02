@@ -1,5 +1,6 @@
 import json
 import pprint
+from utils import *
 
 class Results:
     steps = []
@@ -23,6 +24,7 @@ class Results:
         if key in Results.state.keys():
             return Results.state[key]
         else:
+            logging.error('get_state(): key: ' + str(key) + ', value not found.')
             return None
 
     @classmethod
@@ -60,4 +62,4 @@ class Results:
 
         print '\n'
 
-        cls.dump_results('test-log.json')
+        cls.dump_results('test-results.json')
