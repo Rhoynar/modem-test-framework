@@ -5,7 +5,7 @@ import unittest
 
 from plmn.utils import *
 
-from plmn.helpers import MMCLIHelper
+from plmn.mmcli_helper import MMCLIHelper
 
 
 class ModemChecks(unittest.TestCase):

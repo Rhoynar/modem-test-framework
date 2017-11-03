@@ -3,7 +3,7 @@
 import unittest
 import compat
 from plmn.utils import *
-from plmn.helpers import MMCLIHelper
+from plmn.mmcli_helper import MMCLIHelper
 
 
 class SimChecks(unittest.TestCase):

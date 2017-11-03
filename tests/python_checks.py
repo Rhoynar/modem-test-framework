@@ -3,11 +3,11 @@ import unittest
 
 import compat
 from plmn.utils import *
-
+from plmn.cmd_runner import *
 
 class PythonChecks(unittest.TestCase):
     def test_python_location(self):
-        python_exec = run_cmd('which python').strip()
+        python_exec = MMCLIRunner.run_cmd('which python').strip()
 
         if len(python_exec) is 0:
             Results.add_error('which python', 'Python not installed. Please install python using: sudo apt-get install python2.7')
@@ -15,7 +15,7 @@ class PythonChecks(unittest.TestCase):
             Results.add_state('Python Exec', python_exec)
 
     def test_python_version(self):
-        python_ver = run_cmd('python --version')
+        python_ver = MMCLIRunner.run_cmd('python --version')
         python_ver_major = re.findall(r'[0-9]+', python_ver)[0]
         python_ver_minor = re.findall(r'[0-9]+', python_ver)[1]
         # Suite is developed with Python 2.7+ in mind.
@@ -34,7 +34,7 @@ class PythonChecks(unittest.TestCase):
             Results.add_state('SUDO_USER', username.strip())
 
     def test_check_pip(self):
-        pip = run_cmd('which pip').strip()
+        pip = MMCLIRunner.run_cmd('which pip').strip()
 
         if len(pip) == 0:
             Results.add_error('which pip', 'Python Package Manager (PIP) not present. Please install using: sudo apt-get install python-pip')
@@ -43,7 +43,7 @@ class PythonChecks(unittest.TestCase):
 
     def test_pip_pacakages(self):
         # Check if required pip packages exist
-        pip_pkgs = run_cmd('pip freeze')
+        pip_pkgs = MMCLIRunner.run_cmd('pip freeze')
 
         # For now pyserial is the only required package,
         # others may be required in future.

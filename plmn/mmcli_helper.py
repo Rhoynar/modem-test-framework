@@ -3,15 +3,15 @@
 import re
 
 from utils import *
-from parser import MMCLIParser
-
+from cmd_runner import MMCLIRunner
+from mmcli_parser import MMCLIParser
 
 class MMCLIHelper:
     @classmethod
     def mmcli_cmd_present(cls):
         mmcli_exec = Results.get_state('MMCLI Exec')
         if mmcli_exec is None:
-            mmcli_exec = run_cmd('which mmcli')
+            mmcli_exec = MMCLIRunner.run_cmd('which mmcli')
             if mmcli_exec is not None and len(mmcli_exec.strip()) is 0:
                 Results.add_state('MMCLI Exec', mmcli_exec.strip())
 
@@ -23,7 +23,7 @@ class MMCLIHelper:
 
         modem_loc = Results.get_state('Modem Location')
         if modem_loc is None:
-            mmcli = run_cmd('mmcli -L')
+            mmcli = MMCLIRunner.run_cmd('mmcli -L')
             if '/org/freedesktop/ModemManager' not in mmcli:
                 Results.add_error('mmcli -L', 'Modem not found. Please enable the modem through instrument UI.')
             else:
@@ -39,7 +39,7 @@ class MMCLIHelper:
         modem_en = Results.get_state('Modem Enabled')
         if modem_en is None:
             modem_idx = Results.get_state('Modem Index')
-            mmcli = run_cmd('mmcli -m {} --simple-status'.format(modem_idx))
+            mmcli = MMCLIRunner.run_cmd('mmcli -m {} --simple-status'.format(modem_idx))
             res = MMCLIParser.parse(mmcli)
             if res is not None and 'Status' in res.keys() and 'state' in res['Status'].keys():
                 if res['Status']['state'] == 'disabled':
@@ -63,7 +63,7 @@ class MMCLIHelper:
             modem_idx = Results.get_state('Modem Index')
             assert modem_idx is not None
 
-            mmcli = run_cmd('mmcli -m {}'.format(modem_idx)).strip()
+            mmcli = MMCLIRunner.run_cmd('mmcli -m {}'.format(modem_idx)).strip()
             modem_info = MMCLIParser.parse(mmcli)
             if len(modem_info.keys()) > 0:
                 Results.add_state('Modem Info', modem_info)
@@ -80,7 +80,7 @@ class MMCLIHelper:
         sim_present = Results.get_state('SIM Present')
         if sim_present is None:
             modem_idx = Results.get_state('Modem Index')
-            mmcli = run_cmd('mmcli -m {}'.format(modem_idx))
+            mmcli = MMCLIRunner.run_cmd('mmcli -m {}'.format(modem_idx))
             res = MMCLIParser.parse(mmcli)
             if 'SIM' in res.keys() and 'Status' in res.keys() and 'state' in res['Status'].keys():
                 if res['Status']['state'] == 'failed':
@@ -101,7 +101,7 @@ class MMCLIHelper:
             modem_idx = Results.get_state('Modem Index')
             assert modem_idx is not None
 
-            mmcli = run_cmd('mmcli -m {}'.format(modem_idx))
+            mmcli = MMCLIRunner.run_cmd('mmcli -m {}'.format(modem_idx))
             res = MMCLIParser.parse(mmcli)
             if '3GPP' in res.keys() and 'enabled locks' in res['3GPP'].keys():
                 if res['3GPP']['enabled locks'] == 'none':
@@ -122,7 +122,7 @@ class MMCLIHelper:
             modem_idx = Results.get_state('Modem Index')
             assert modem_idx is not None
 
-            mmcli = run_cmd('mmcli -m {}'.format(modem_idx))
+            mmcli = MMCLIRunner.run_cmd('mmcli -m {}'.format(modem_idx))
             res = MMCLIParser.parse(mmcli)
             if 'SIM' in res.keys() and 'Status' in res.keys() and 'state' in res['Status'].keys():
                 if res['Status']['state'] == 'registered':
@@ -135,3 +135,8 @@ class MMCLIHelper:
 
         assert sim_registered is True
 
+    @classmethod
+    def modem_sanity(cls):
+        cls.mmcli_cmd_present()
+        cls.modem_enabled()
+        cls.sim_registered()
