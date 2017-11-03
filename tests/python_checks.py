@@ -1,6 +1,8 @@
-import unittest
-from utils import *
 import re
+import unittest
+
+from plmn.utils import *
+
 
 class PythonChecks(unittest.TestCase):
     def test_python_location(self):

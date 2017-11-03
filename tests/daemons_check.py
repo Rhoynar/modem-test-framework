@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from utils import *
+
+from plmn.utils import *
+
 
 class DaemonChecks(unittest.TestCase):
     def required_services(self):

@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from utils import *
-from mmcli_checks import MMCLIChecks
+
+from plmn.helpers import MMCLIHelper
+from plmn.utils import *
+
 
 class SimChecks(unittest.TestCase):
     def test_sim_present(self):
-        MMCLIChecks.sim_present()
+        MMCLIHelper.sim_present()
 
     def test_sim_unlocked(self):
-        MMCLIChecks.sim_unlocked()
+        MMCLIHelper.sim_unlocked()
 
     def test_sim_registered(self):
-        MMCLIChecks.sim_registered()
+        MMCLIHelper.sim_registered()
 
 if __name__ == '__main__':
     unittest.main(exit=False)

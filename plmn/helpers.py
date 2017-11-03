@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import unittest
 import re
-from utils import *
-from mmcli_parser import MMCLIParser
 
-class MMCLIChecks:
+from plmn.parser import MMCLIParser
+from plmn.utils import *
+
+
+class MMCLIHelper:
     @classmethod
     def mmcli_cmd_present(cls):
         mmcli_exec = Results.get_state('MMCLI Exec')

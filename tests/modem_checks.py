@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-from utils import *
-from mmcli_checks import MMCLIChecks
+
+from plmn.helpers import MMCLIHelper
+from plmn.utils import *
+
 
 class ModemChecks(unittest.TestCase):
     def test_mmcli_cmd_present(self):
-        MMCLIChecks.mmcli_cmd_present()
+        MMCLIHelper.mmcli_cmd_present()
 
     def test_list_modems(self):
-        MMCLIChecks.list_modems()
+        MMCLIHelper.list_modems()
 
     def test_modem_enabled(self):
-        MMCLIChecks.modem_enabled()
+        MMCLIHelper.modem_enabled()
 
     def test_modem_info(self):
-        MMCLIChecks.modem_info()
+        MMCLIHelper.modem_info()
 
 if __name__ == '__main__':
     unittest.main(exit=False)
