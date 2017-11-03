@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import compat
 import unittest
 
 from plmn.utils import *

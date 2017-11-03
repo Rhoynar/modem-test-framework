@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-
+import compat
 from plmn.utils import *
-
 from plmn.helpers import MMCLIHelper
 
 

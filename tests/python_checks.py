@@ -1,6 +1,7 @@
 import re
 import unittest
 
+import compat
 from plmn.utils import *
 
 
