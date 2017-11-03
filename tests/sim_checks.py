@@ -2,8 +2,9 @@
 
 import unittest
 
+from plmn.utils import *
+
 from plmn.helpers import MMCLIHelper
-from plmn.helpers.utils import *
 
 
 class SimChecks(unittest.TestCase):

@@ -1,7 +1,6 @@
 import unittest
-from daemons_check import *
-from python_checks import *
-from results import *
+from helpers.helpers import *
+from helpers.utils import *
 
 if __name__ == '__main__':
     suite = unittest.TestSuite()

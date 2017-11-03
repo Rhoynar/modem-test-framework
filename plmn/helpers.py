@@ -2,9 +2,8 @@
 
 import re
 
-from plmn.utils import *
-
-from plmn.helpers.parser import MMCLIParser
+from utils import *
+from parser import MMCLIParser
 
 
 class MMCLIHelper:

@@ -12,14 +12,15 @@ with open('LICENSE') as f:
     license = f.read()
 
 setup(
-    name='Sample-app',
-    version='0.1.0',
-    description='Sample package for Python',
+    name='plmn',
+    version='1.0.0',
+    description='Perform Regression tests of MMCLI/NMCLI commands and PLMN Test Scenarios',
     long_description=readme,
     author='Harsh Murari',
     author_email='harsh@rhoynar.com',
-    url='https://github.com/rhoynar/sample-python',
+    url='https://github.com/Rhoynar/plmn-regression',
     license=license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=['plmn'],
+    test_suite='tests'
 )
 
