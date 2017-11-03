@@ -2,8 +2,9 @@
 
 import re
 
-from plmn.parser import MMCLIParser
 from plmn.utils import *
+
+from plmn.helpers.parser import MMCLIParser
 
 
 class MMCLIHelper:

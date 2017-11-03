@@ -1,7 +1,7 @@
 import re
 import unittest
 
-from plmn.utils import *
+from plmn.helpers.utils import *
 
 
 class PythonChecks(unittest.TestCase):
