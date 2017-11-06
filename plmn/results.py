@@ -9,7 +9,13 @@ class Results:
 
     @classmethod
     def add_step(cls, cmd):
-        Results.steps.append(cmd)
+        step_already_added = False
+        for step in Results.steps:
+            if step == cmd:
+                step_already_added = True
+                break
+        if not step_already_added:
+            Results.steps.append(cmd)
 
     @classmethod
     def add_error(cls, cmd, comment):
@@ -20,6 +26,7 @@ class Results:
 
         if err_already_added == False:
             Results.errs.append({'cmd' : cmd, 'comment': comment})
+            logging.error('Error in ' + cmd + ', Details: ' + comment)
             assert 0, comment
 
     @classmethod
@@ -31,7 +38,6 @@ class Results:
         if key in Results.state.keys():
             return Results.state[key]
         else:
-            logging.error('get_state(): key: ' + str(key) + ', value not found.')
             return None
 
     @classmethod
@@ -42,6 +48,7 @@ class Results:
 
     @classmethod
     def reset(cls):
+        logging.info('Reset state.')
         cls.state = {}
 
     @classmethod
