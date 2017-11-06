@@ -46,6 +46,12 @@ class AtCmdChecks(unittest.TestCase):
             assert res == '', 'AT unlock command not succesful'
             Results.add_state('AT Unlocked', True)
 
+    def restart_mm_in_debug_mode(self):
+        self._check_mm_debug_mode()
+
+    def unlock_at_cmds(self):
+        self._unlock_at_cmds()
+
     def set_apn_name_in_profile(self, pid=1, apn='broadband'):
         self._check_mm_debug_mode()
         self._unlock_at_cmds()
