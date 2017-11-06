@@ -84,8 +84,6 @@ class AtCmds():
 
     @classmethod
     def perform_auto_register(cls):
-        cls.perform_3gpp_scan()
-
         res = cls.send_at_cmd('AT+COPS=0')
         assert res is not None
 
