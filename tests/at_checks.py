@@ -28,7 +28,7 @@ class ModemChecks(unittest.TestCase):
 
         modem_idx = Results.get_state('Modem Index')
         assert modem_idx is not None
-        cmd = "mmcli -m {} --cmd='{}' --timeout {}".format(modem_idx, at_cmd, timeout)
+        cmd = "mmcli -m {} --command='{}' --timeout={}".format(modem_idx, at_cmd, timeout)
 
         res = Runner.run_cmd(cmd).strip()
         res = res.replace('\r','|').replace('\n','|')
