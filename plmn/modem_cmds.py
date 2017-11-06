@@ -34,6 +34,25 @@ class ModemCmds:
         assert modem_loc is not None
 
     @classmethod
+    def list_modem_wait(cls):
+        cls.mmcli_cmd_present()
+
+        modem_loc = Results.get_state('Modem Location')
+        if modem_loc is None:
+            for idx in range(0,30):
+                mmcli = Runner.run_cmd('mmcli -L')
+                if '/org/freedesktop/ModemManager1/Modem/' not in mmcli:
+                    time.sleep(1)
+                    continue
+                else:
+                    modem_loc = re.search(r'(/org/freedesktop/ModemManager\d/Modem/\d)', mmcli.strip()).group(1)
+                    Results.add_state('Modem Location', modem_loc)
+                    Results.add_state('Modem Index',
+                                      re.search(r'/org/freedesktop/ModemManager\d/Modem/(\d)', modem_loc).group(1))
+                    break
+
+
+    @classmethod
     def modem_enabled(cls):
         cls.list_modems()
 
@@ -231,18 +250,18 @@ class ModemCmds:
             print "Turning OFF Modem using ACM Device command: " + modem_off_cmd
 
         res = Runner.run_cmd(modem_off_cmd)
-        time.sleep(10)
+        time.sleep(20)
 
         # Command to turn-on Modem.
         modem_on_cmd = "echo gprs 1 > /dev/ttyACM{}".format(largest_dev_idx)
         if cmd_dbg:
             print "Turning ON Modem using ACM Device command: " + modem_on_cmd
-        time.sleep(10)
+        time.sleep(20)
 
         # Perform basics initialization.
         Results.reset()
         cls.mmcli_cmd_present()
-        cls.list_modems()
+        cls.list_modem_wait()
         cls.modem_enabled()
         cls.sim_present()
         cls.sim_unlocked()
