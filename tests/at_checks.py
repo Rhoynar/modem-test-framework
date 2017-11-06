@@ -142,7 +142,6 @@ class AtCmdChecks(unittest.TestCase):
         # Check LTE Info
         res = self._send_at_cmd('AT!LTEINFO=?')
         assert res is not None
-        assert 'Not Available' not in res
 
         # Check LTE NAS Info
         res = self._send_at_cmd('AT!LTENAS?')
