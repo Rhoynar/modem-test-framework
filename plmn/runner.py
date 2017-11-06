@@ -1,9 +1,9 @@
 import os
 import subprocess
 import inspect
-from utils import Results
+from results import Results
 
-class MMCLIRunner:
+class Runner:
     @classmethod
     def run_cmd(cls, cmd):
         cmd_obj = subprocess.Popen([cmd], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)

@@ -1,11 +1,6 @@
-import subprocess
-import inspect
-import os
+from logger import *
 import json
 import pprint
-
-import logging
-logging.basicConfig(filename='test.log',level=logging.DEBUG)
 
 class Results:
     steps = []
@@ -44,6 +39,10 @@ class Results:
         res = { 'state' : Results.state, 'steps' : Results.steps, 'errors' : Results.errs }
         with open(filename, 'w') as json_file:
             json.dump(res, json_file, indent=4)
+
+    @classmethod
+    def reset(cls):
+        cls.state = {}
 
     @classmethod
     def print_results(cls):

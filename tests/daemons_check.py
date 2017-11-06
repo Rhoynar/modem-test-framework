@@ -3,13 +3,13 @@
 import compat
 import unittest
 
-from plmn.utils import *
-from plmn.cmd_runner import *
+from plmn.results import *
+from plmn.runner import *
 
 
 class DaemonChecks(unittest.TestCase):
     def required_services(self):
-        ps_ef = MMCLIRunner.run_cmd('ps -ef')
+        ps_ef = Runner.run_cmd('ps -ef')
         if 'ModemManager' not in ps_ef:
             Results.add_error('ps -ef', 'Modem Manager is not running. Start using: sudo start modemmanager')
 
@@ -17,7 +17,7 @@ class DaemonChecks(unittest.TestCase):
             Results.add_error('ps -ef', 'Network Manager is not running. Start using: sudo start network-manager')
 
     def wwan_interfaces(self):
-        ifcfg = MMCLIRunner.run_cmd('ifconfig -a')
+        ifcfg = Runner.run_cmd('ifconfig -a')
         if 'wwan' not in ifcfg:
             Results.add_error('ifconfig -a', 'wwan interface is not enumerated. Please restart network-manager using: sudo stop network-manager && sudo start network-manager')
 

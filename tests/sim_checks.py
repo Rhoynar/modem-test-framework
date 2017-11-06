@@ -2,7 +2,7 @@
 
 import unittest
 import compat
-from plmn.utils import *
+from plmn.results import *
 from plmn.mmcli_helper import MMCLIHelper
 
 
