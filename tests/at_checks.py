@@ -23,8 +23,16 @@ class ModemChecks(unittest.TestCase):
 
         assert debug_mode is True
 
+    def _unlock_at_cmds(self):
+        self._check_mm_debug_mode()
+        if True != Results.get_state('AT Unlocked'):
+            res = self._send_at_cmd('AT!ENTERCND="A710"')
+            assert res == '', 'AT unlock command not succesful'
+            Results.add_state('AT Unlocked', True)
+
     def _send_at_cmd(self, at_cmd, timeout=300):
         self._check_mm_debug_mode()
+        self._unlock_at_cmds()
 
         modem_idx = Results.get_state('Modem Index')
         assert modem_idx is not None
@@ -40,11 +48,6 @@ class ModemChecks(unittest.TestCase):
         logging.info('Issuing AT command: {}, Response: \n{}'.format(cmd, at_res.replace('|', '\n')))
         return at_res
 
-    def _unlock_at_cmds(self):
-        self._check_mm_debug_mode()
-        res = self._send_at_cmd('AT!ENTERCND="A710"')
-        assert res == '', 'AT unlock command not succesful'
-        Results.add_state('AT Unlocked', True)
 
     def set_apn_name_in_profile(self, pid=1, apn='broadband'):
         self._check_mm_debug_mode()

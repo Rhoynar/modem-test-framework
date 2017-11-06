@@ -38,16 +38,16 @@ class MMCLIHelper:
         cls.list_modems()
 
         modem_en = Results.get_state('Modem Enabled')
-        print 'modem_en:', modem_en
+#        print 'modem_en:', modem_en
         if modem_en is None:
             modem_idx = Results.get_state('Modem Index')
-            print 'modem_idx', modem_idx
+#            print 'modem_idx', modem_idx
 
             mmcli = Runner.run_cmd('mmcli -m {} --simple-status'.format(modem_idx))
-            print 'mmcli -m 0 --simple-status results: \n', mmcli
+#            print 'mmcli -m 0 --simple-status results: \n', mmcli
 
             res = MMCLIParser.parse(mmcli)
-            print 'res:\n', res
+#            print 'res:\n', res
 
             if res is not None and 'Status' in res.keys() and 'state' in res['Status'].keys():
                 if res['Status']['state'] == 'disabled':
