@@ -37,6 +37,10 @@ class NetworkChecks():
         # Perform auto-register.
         AtCmds.perform_auto_register()
 
+        # Ensure modem is registered now.
+        ModemCmds.modem_enabled()
+        ModemCmds.sim_registered()
+
     @classmethod
     def network_register(cls, network_name, apn_name):
         cls._network_register_using_at(network_name, apn_name)
