@@ -200,7 +200,7 @@ class ModemCmds:
 
     # Uses MMCLI commands to put modem into Low power mode (LPM) and back online.
     @classmethod
-    def restart_modem(cls):
+    def mode_lpm_online(cls):
         cls.list_modems()
 
         modem_idx = Results.get_state('Modem Index')
@@ -213,6 +213,39 @@ class ModemCmds:
         res = Runner.run_cmd('mmcli -m {} --enable'.format(modem_idx))
         assert res is not None
         time.sleep(3)
+
+    @classmethod
+    def restart_modem(cls):
+        # Find the highest index /dev/ttyACM* device.
+        res = Runner.run_cmd('ls /dev/ttyACM*').strip()
+        devs = re.findall(r'/dev/ttyACM\d', res)
+        largest_dev_idx = 0
+        for dev in devs:
+            dev_idx = re.search('/dev/ttyACM(\d)', dev).group(1)
+            if int(dev_idx) > largest_dev_idx:
+                largest_dev_idx = int(dev_idx)
+
+        # Command to reset device:
+        modem_off_cmd = "echo gprs 0 /dev/ttyACM{}".format(largest_dev_idx)
+        if cmd_dbg:
+            print "Turning OFF Modem using ACM Device command: " + modem_off_cmd
+
+        res = Runner.run_cmd(modem_off_cmd)
+        time.sleep(5)
+
+        # Command to turn-on Modem.
+        modem_on_cmd = "echo gprs 1 /dev/ttyACM{}".format(largest_dev_idx)
+        if cmd_dbg:
+            print "Turning ON Modem using ACM Device command: " + modem_on_cmd
+        time.sleep(5)
+
+        # Perform basics initialization.
+        Results.reset()
+        cls.mmcli_cmd_present()
+        cls.list_modems()
+        cls.modem_enabled()
+        cls.sim_present()
+        cls.sim_unlocked()
 
 
 if __name__ == '__main__':
