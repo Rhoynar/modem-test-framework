@@ -1,2 +1,4 @@
 import logging
-logging.basicConfig(filename='test.log',level=logging.DEBUG)
+with open('test.log', 'w'):
+    pass
+logging.basicConfig(filename='test.log',level=logging.DEBUG, )
