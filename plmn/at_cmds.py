@@ -29,6 +29,9 @@ class AtCmds():
         cmd = "mmcli -m {} --command='{}' --timeout={}".format(modem_idx, at_cmd, timeout)
 
         res = Runner.run_cmd(cmd).strip()
+        print "AT command: ", cmd
+        print "Response: ", res
+
         res = res.replace('\r','|').replace('\n','|')
         match = re.search(r'response: \'(.*)\'', res)
         at_res = None
@@ -53,7 +56,7 @@ class AtCmds():
         res = cls.send_at_cmd('AT+CGDCONT?')
         assert res is not None
 
-        res = cls.send_at_cmd('AT+CGDCONT={},"IP",{}'.format(pid, apn))
+        res = cls.send_at_cmd('AT+CGDCONT={},"IP","{}"'.format(pid, apn))
         assert res is ''
 
         # Query again to check profile has been updated with new APN.
