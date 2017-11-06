@@ -8,6 +8,7 @@ class Runner:
     @classmethod
     def run_cmd(cls, cmd):
         if cmd_dbg:
+            print "Executing: " + str(cmd)
 
         cmd_obj = subprocess.Popen([cmd], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stack = inspect.stack()
