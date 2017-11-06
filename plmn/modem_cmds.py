@@ -212,7 +212,7 @@ class ModemCmds:
 
         res = Runner.run_cmd('mmcli -m {} --enable'.format(modem_idx))
         assert res is not None
-        time.sleep(3)
+        time.sleep(10)
 
     @classmethod
     def restart_modem(cls):
@@ -226,18 +226,18 @@ class ModemCmds:
                 largest_dev_idx = int(dev_idx)
 
         # Command to reset device:
-        modem_off_cmd = "echo gprs 0 /dev/ttyACM{}".format(largest_dev_idx)
+        modem_off_cmd = "echo gprs 0 > /dev/ttyACM{}".format(largest_dev_idx)
         if cmd_dbg:
             print "Turning OFF Modem using ACM Device command: " + modem_off_cmd
 
         res = Runner.run_cmd(modem_off_cmd)
-        time.sleep(5)
+        time.sleep(10)
 
         # Command to turn-on Modem.
-        modem_on_cmd = "echo gprs 1 /dev/ttyACM{}".format(largest_dev_idx)
+        modem_on_cmd = "echo gprs 1 > /dev/ttyACM{}".format(largest_dev_idx)
         if cmd_dbg:
             print "Turning ON Modem using ACM Device command: " + modem_on_cmd
-        time.sleep(5)
+        time.sleep(10)
 
         # Perform basics initialization.
         Results.reset()

@@ -19,14 +19,17 @@ class NetworkChecks():
         # Restart modem-manager in debug mode if needed.
         AtCmds.mm_debug_mode()
 
-        # Restart Modem. (put in Low Power mode and back online)
-        ModemCmds.restart_modem()
-
         # Unlock all at-commands.
         AtCmds.unlock_at_cmds()
 
         # Update default profile with correct APN name.
         AtCmds.set_apn_name_in_profile(1, apn_name)
+
+        # Restart Modem. (put in Low Power mode and back online)
+        ModemCmds.restart_modem()
+
+        # Perform mode lpm/online
+        ModemCmds.mode_lpm_online()
 
         # Perform 3GPP scan
         AtCmds.perform_3gpp_scan()
