@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from logger import *
+from utils import *
 from results import *
 from runner import Runner
 from mmcli_parser import MMCLIParser

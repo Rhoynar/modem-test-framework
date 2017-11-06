@@ -1,5 +1,9 @@
 import logging
 
+# Setup various debug variables.
+at_dbg = True
+cmd_dbg = True
+
 # Open fresh logging file each time.
 def run_once(f):
     def wrapper(*args, **kwargs):
@@ -21,7 +25,3 @@ def clear_log_file():
 # Setup basic logging config.
 clear_log_file()
 logging.basicConfig(filename='test.log',level=logging.DEBUG)
-
-# Setup various debug variables.
-at_dbg = True
-cmd_dbg = True

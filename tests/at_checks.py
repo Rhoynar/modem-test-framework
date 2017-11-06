@@ -4,7 +4,7 @@ import compat
 import unittest
 import re
 
-from plmn.logger import *
+from plmn.utils import *
 from plmn.results import *
 from plmn.modem_cmds import ModemCmds
 from plmn.runner import *

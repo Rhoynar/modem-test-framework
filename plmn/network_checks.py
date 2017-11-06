@@ -3,6 +3,7 @@
 import unittest
 import time
 import tests.compat
+from plmn.utils import *
 from plmn.results import *
 from plmn.modem_cmds import ModemCmds
 from plmn.runner import *
