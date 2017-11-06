@@ -186,12 +186,15 @@ class ModemChecks(unittest.TestCase):
         assert res is not None
 
 
+    @unittest.skip('Skip 3GPP scanning. Enable this for manual run.')
     def test_at_3gpp_scan(self):
         self.perform_3gpp_scan()
 
+    @unittest.skip('Skip Auto Register. Enable this for manual run.')
     def test_at_auto_register(self):
         self.perform_auto_register()
 
+    @unittest.skip('Skip Manual Register Test on a given Network for regression. Enable this for manual run.')
     def test_at_manual_register(self):
         self.perform_manual_register('AT&T')
 
