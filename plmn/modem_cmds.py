@@ -42,8 +42,9 @@ class ModemCmds:
             for idx in range(0,30):
                 mmcli = Runner.run_cmd('mmcli -L')
                 if '/org/freedesktop/ModemManager1/Modem/' not in mmcli:
+                    if cmd_dbg:
+                        print 'Modem not listed yet. Waiting..'
                     time.sleep(1)
-                    continue
                 else:
                     modem_loc = re.search(r'(/org/freedesktop/ModemManager\d/Modem/\d)', mmcli.strip()).group(1)
                     Results.add_state('Modem Location', modem_loc)
@@ -250,13 +251,13 @@ class ModemCmds:
             print "Turning OFF Modem using ACM Device command: " + modem_off_cmd
 
         res = Runner.run_cmd(modem_off_cmd)
-        time.sleep(20)
+        time.sleep(5)
 
         # Command to turn-on Modem.
         modem_on_cmd = "echo gprs 1 > /dev/ttyACM{}".format(largest_dev_idx)
         if cmd_dbg:
             print "Turning ON Modem using ACM Device command: " + modem_on_cmd
-        time.sleep(20)
+        time.sleep(10)
 
         # Perform basics initialization.
         Results.reset()
