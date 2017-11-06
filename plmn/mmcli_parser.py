@@ -29,7 +29,7 @@ class MMCLIParser():
                 continue
 
             first_idx = line.find('|')
-            if first_idx >= 10 and first_idx < 15:
+            if first_idx > 0:
                 sys = re.search('([\w\d\s]+)', line[:first_idx]).group(1)
                 sys = sys.strip()
                 if sys is not '':
@@ -37,7 +37,7 @@ class MMCLIParser():
                     res[cur_sys] = {}
 
                 second_idx = line.find(':')
-                if second_idx >= 25 and second_idx < 35:
+                if second_idx >= first_idx:
                     subsys = re.search('([\w\d\s]+)', line[first_idx:second_idx]).group(1)
                     subsys = subsys.strip()
                     if subsys is not '':
