@@ -46,7 +46,7 @@ class MMCLIHelper:
                 if res['Status']['state'] == 'disabled':
                     Results.add_error('mmcli -m {} --simple-status'.format(modem_idx), 'Modem not enabled. Please enable using mmcli -m {} --enable'.format(modem_idx))
 
-                elif res['Status']['state'] != 'registered' and res['Status']['state'] != 'connected':
+                elif res['Status']['state'] != 'registered' and res['Status']['state'] != 'connected' and res['Status']['state'] != 'searching':
                     Results.add_error('mmcli -m {} --simple-status'.format(modem_idx),
                                       'Modem not registered. Contact support with log files')
                 else:
