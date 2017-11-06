@@ -7,7 +7,7 @@ from runner import Runner
 from mmcli_parser import MMCLIParser
 import time
 
-class MMCLIHelper:
+class ModemCmds:
     @classmethod
     def mmcli_cmd_present(cls):
         mmcli_exec = Results.get_state('MMCLI Exec')
@@ -173,7 +173,8 @@ class MMCLIHelper:
 
     @classmethod
     def modem_manager_start_in_debug_mode(cls):
-        if not cls.modem_manager_in_debug_mode():
+        dbg_mode = cls.modem_manager_in_debug_mode()
+        if not dbg_mode:
             Runner.run_cmd('sudo stop modemmanager')
             time.sleep(2)
             Runner.run_cmd('/usr/sbin/ModemManager --debug')
@@ -183,11 +184,12 @@ class MMCLIHelper:
             cls.modem_info()
 
             # Ensure debug omde is True
-            debug_mode = cls.modem_manager_in_debug_mode()
-            if not debug_mode:
+            dbg_mode = cls.modem_manager_in_debug_mode()
+            if not dbg_mode:
                 Results.add_error('/usr/sbin/ModemManager --debug', 'Modem manager cannot be started in debug mode.')
 
-            assert debug_mode is True
+            assert dbg_mode is True
+        return dbg_mode
 
     @classmethod
     def modem_sanity(cls):
@@ -197,4 +199,4 @@ class MMCLIHelper:
 
 
 if __name__ == '__main__':
-    MMCLIHelper.modem_enabled()
+    ModemCmds.modem_enabled()
