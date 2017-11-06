@@ -4,6 +4,8 @@ import unittest
 import re
 from modem_cmds import *
 
+at_debug = True
+
 class AtCmds():
     @classmethod
     def modem_sanity(cls):
@@ -29,8 +31,10 @@ class AtCmds():
         cmd = "mmcli -m {} --command='{}' --timeout={}".format(modem_idx, at_cmd, timeout)
 
         res = Runner.run_cmd(cmd).strip()
-        print "AT command: ", cmd
-        print "Response: ", res
+
+        if at_debug:
+            print "AT command: ", cmd
+            print "Response: ", res
 
         res = res.replace('\r','|').replace('\n','|')
         match = re.search(r'response: \'(.*)\'', res)

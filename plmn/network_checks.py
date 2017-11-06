@@ -28,7 +28,7 @@ class NetworkChecks():
         AtCmds.perform_3gpp_scan()
 
         # Perform manual register
-        AtCmds.perform_manual_register(network_name)
+        # AtCmds.perform_manual_register(network_name)
 
         # Perform auto-register.
         AtCmds.perform_auto_register()
