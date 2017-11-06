@@ -198,5 +198,22 @@ class ModemCmds:
         cls.sim_registered()
 
 
+    # Uses MMCLI commands to put modem into Low power mode (LPM) and back online.
+    @classmethod
+    def restart_modem(cls):
+        cls.list_modems()
+
+        modem_idx = Results.get_state('Modem Index')
+        assert modem_idx is not None
+
+        res = Runner.run_cmd('mmcli -m {} --disable'.format(modem_idx))
+        assert res is not None
+        time.sleep(3)
+
+        res = Runner.run_cmd('mmcli -m {} --enable'.format(modem_idx))
+        assert res is not None
+        time.sleep(3)
+
+
 if __name__ == '__main__':
     ModemCmds.modem_enabled()

@@ -27,12 +27,12 @@ class AtCmds():
         modem_idx = Results.get_state('Modem Index')
         assert modem_idx is not None
         cmd = "mmcli -m {} --command='{}' --timeout={}".format(modem_idx, at_cmd, timeout)
-        if cmd_dbg:
+        if at_dbg:
             print "AT command: ", cmd
 
         res = Runner.run_cmd(cmd).strip()
 
-        if cmd_dbg:
+        if at_dbg:
             print "Response: ", res
 
         res = res.replace('\r','|').replace('\n','|')

@@ -13,10 +13,13 @@ class NetworkChecks():
     @classmethod
     def _network_register_using_at(cls, network_name, apn_name):
         # Modem sanity
-        AtCmds.modem_sanity()
+        ModemCmds.modem_sanity()
 
         # Restart modem-manager in debug mode if needed.
         AtCmds.mm_debug_mode()
+
+        # Restart Modem. (put in Low Power mode and back online)
+        ModemCmds.restart_modem()
 
         # Unlock all at-commands.
         AtCmds.unlock_at_cmds()

@@ -4,9 +4,9 @@ import unittest
 import compat
 from plmn.network_checks import *
 
-class AtntNetworkChecks(unittest.TestCase):
-    def test_register_on_atnt(self):
-        NetworkChecks.network_register('AT&T', 'broadband')
+class NetworkRegisterVerizon(unittest.TestCase):
+    def test_register_on_verizon(self):
+        NetworkChecks.network_register('Verizon', 'vzwinternet')
 
 if __name__ == '__main__':
     unittest.main(exit=False)
