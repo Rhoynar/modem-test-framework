@@ -263,9 +263,6 @@ class ModemCmds:
         Results.reset()
         cls.mmcli_cmd_present()
         cls.list_modem_wait()
-        cls.modem_enabled()
-        cls.sim_present()
-        cls.sim_unlocked()
 
 
 if __name__ == '__main__':
