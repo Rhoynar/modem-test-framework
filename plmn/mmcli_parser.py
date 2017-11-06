@@ -44,12 +44,13 @@ class MMCLIParser():
                         cur_subsys = subsys
                         res[cur_sys][cur_subsys] = ''
 
-                    val = line[second_idx:].strip().strip(':').strip().strip('\'')
+                    val = line[second_idx:].strip().strip(':').strip().strip('\'').strip()
+                    res[cur_sys][cur_subsys] = val
+
+                elif second_idx == -1:
+                    val = line.strip().strip('\'').strip('|').strip()
                     if val is not '':
-                        if res[cur_sys][cur_subsys] == '':
-                            res[cur_sys][cur_subsys] += val
-                        else:
-                            res[cur_sys][cur_subsys] += ', ' + val
+                        res[cur_sys][cur_subsys] = ', ' + val
 
         return res
 
