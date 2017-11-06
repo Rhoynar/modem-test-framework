@@ -50,7 +50,7 @@ class MMCLIParser():
                 elif second_idx == -1:
                     val = line.strip().strip('\'').strip('|').strip()
                     if val is not '':
-                        res[cur_sys][cur_subsys] = ', ' + val
+                        res[cur_sys][cur_subsys] = res[cur_sys][cur_subsys] + ', ' + val
 
         return res
 
