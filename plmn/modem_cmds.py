@@ -282,4 +282,5 @@ class ModemCmds:
         cls.list_modem_wait()
 
 if __name__ == '__main__':
+    process_args()
     ModemCmds.modem_enabled()

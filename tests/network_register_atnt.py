@@ -10,5 +10,6 @@ class NetworkRegisterAtnt(unittest.TestCase):
         NetworkChecks.network_connect('AT&T', 'broadband')
 
 if __name__ == '__main__':
+    process_args()
     unittest.main(exit=False)
     Results.print_results()

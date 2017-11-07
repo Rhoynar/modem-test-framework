@@ -17,5 +17,6 @@ class SimChecks(unittest.TestCase):
         ModemCmds.sim_registered()
 
 if __name__ == '__main__':
+    process_args()
     unittest.main(exit=False)
     Results.print_results()

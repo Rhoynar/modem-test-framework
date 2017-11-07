@@ -14,7 +14,7 @@ with open('LICENSE') as f:
 setup(
     name='plmn',
     version='1.0.0',
-    description='Perform Regression tests of MMCLI/NMCLI commands and PLMN Test Scenarios',
+    description='Perform Regression tests of 3G/4G Registration and Connections.',
     long_description=readme,
     author='Harsh Murari',
     author_email='harsh@rhoynar.com',

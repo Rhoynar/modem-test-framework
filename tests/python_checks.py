@@ -56,6 +56,7 @@ class PythonChecks(unittest.TestCase):
             Results.add_state('PySerial', True)
 
 if __name__ == '__main__':
+    process_args()
     unittest.main(exit=False)
     Results.print_results()
 

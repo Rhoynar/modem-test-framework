@@ -26,5 +26,6 @@ class DaemonChecks(unittest.TestCase):
         self.wwan_interfaces()
 
 if __name__ == '__main__':
+    process_args()
     unittest.main(exit=False)
     Results.print_results()

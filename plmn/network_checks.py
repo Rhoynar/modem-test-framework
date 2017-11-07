@@ -65,4 +65,5 @@ class NetworkChecks():
         SimpleCmds.simple_connect(apn_name)
 
 if __name__ == '__main__':
+    process_args()
     NetworkChecks.network_register('AT&T', 'broadband')

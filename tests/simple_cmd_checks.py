@@ -33,5 +33,6 @@ class SimpleCmdChecks(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    process_args()
     unittest.main(exit=False)
     Results.print_results()

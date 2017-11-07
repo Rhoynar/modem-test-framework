@@ -8,15 +8,6 @@ _log_lvl = 'DEBUG'
 # _console_dbg = False
 # _log_lvl = 'DEBUG'
 
-# Open fresh logging file each time.
-def run_once(f):
-    def wrapper(*args, **kwargs):
-        if not wrapper.has_run:
-            wrapper.has_run = True
-            return f(*args, **kwargs)
-    wrapper.has_run = False
-    return wrapper
-
 
 class MyFormatter(logging.Formatter):
     import datetime as dt
@@ -54,6 +45,16 @@ class MyFormatter(logging.Formatter):
         self._fmt = format_orig
         return result
 
+
+# Decorator for running these functions only once.
+def run_once(f):
+    def wrapper(*args, **kwargs):
+        if not wrapper.has_run:
+            wrapper.has_run = True
+            return f(*args, **kwargs)
+    wrapper.has_run = False
+    return wrapper
+
 @run_once
 def setup_log_config():
     logFormatter = MyFormatter()
@@ -65,15 +66,32 @@ def setup_log_config():
     fileHandler.setFormatter(logFormatter)
     rootLogger.addHandler(fileHandler)
 
+@run_once
+def process_args():
+    global _console_dbg
+    import argparse
+
+    parser = argparse.ArgumentParser('PLMN Regression Test Cases')
+    parser.add_argument('--debug', action='store_true', help='Print debug message to screen.')
+    results = parser.parse_args()
+    _console_dbg = results.debug
+
     if _console_dbg:
+        print ' ----------------------  RUNNING TESTS IN DEBUG MODE  ------------------------ '
+        logFormatter = MyFormatter()
+        rootLogger = logging.getLogger()
         consoleHandler = logging.StreamHandler()
         consoleHandler.setFormatter(logFormatter)
         rootLogger.addHandler(consoleHandler)
+
 
 # Setup logging subsystem.
 setup_log_config()
 
 if __name__ == '__main__':
+
+    process_args()
+
     logging.info('Info message')
     logging.error('Error message')
     logging.debug('Debug Message')

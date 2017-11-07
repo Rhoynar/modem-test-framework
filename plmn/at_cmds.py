@@ -27,11 +27,10 @@ class AtCmds():
         modem_idx = Results.get_state('Modem Index')
         assert modem_idx is not None
         cmd = "mmcli -m {} --command='{}' --timeout={}".format(modem_idx, at_cmd, timeout)
-        logging.debug("AT command: " + str(cmd))
 
+        logging.info("AT command: " + str(cmd))
         res = Runner.run_cmd(cmd).strip()
-
-        logging.debug("Response: " + str(res))
+        logging.info("Response: " + str(res))
 
         res = res.replace('\r','|').replace('\n','|')
         match = re.search(r'response: \'(.*)\'', res)

@@ -114,5 +114,6 @@ class AtCmdChecks(unittest.TestCase):
         AtCmds.perform_manual_register('AT&T')
 
 if __name__ == '__main__':
+    process_args()
     unittest.main(exit=False)
     Results.print_results()

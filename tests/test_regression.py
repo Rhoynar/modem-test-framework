@@ -7,9 +7,12 @@ import python_checks
 import sim_checks
 import simple_cmd_checks
 
+from plmn.utils import *
 from plmn.results import *
 
 if __name__ == '__main__':
+    process_args()
+
     suite = unittest.TestSuite()
 
     # Add all regression test-cases to this test-suite.
