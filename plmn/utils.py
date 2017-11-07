@@ -66,7 +66,6 @@ def setup_log_config():
     fileHandler.setFormatter(logFormatter)
     rootLogger.addHandler(fileHandler)
 
-@run_once
 def process_args():
     global _console_dbg
     import argparse
@@ -77,12 +76,18 @@ def process_args():
     _console_dbg = results.debug
 
     if _console_dbg:
-        print ' ----------------------  RUNNING TESTS IN DEBUG MODE  ------------------------ '
         logFormatter = MyFormatter()
         rootLogger = logging.getLogger()
         consoleHandler = logging.StreamHandler()
         consoleHandler.setFormatter(logFormatter)
         rootLogger.addHandler(consoleHandler)
+        logging.info(' ----------------------  RUNNING TESTS IN DEBUG MODE  ------------------------ ')
+
+    # Return the number of arguments processed.
+    if results.debug:
+        return 1
+    else:
+        return 0
 
 
 # Setup logging subsystem.

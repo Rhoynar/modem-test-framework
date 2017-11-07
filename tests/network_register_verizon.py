@@ -2,6 +2,7 @@
 
 import unittest
 import compat
+import sys
 from plmn.network_checks import *
 
 class NetworkRegisterVerizon(unittest.TestCase):
@@ -10,6 +11,6 @@ class NetworkRegisterVerizon(unittest.TestCase):
         NetworkChecks.network_connect('Verizon', 'vzwinternet')
 
 if __name__ == '__main__':
-    process_args()
-    unittest.main(exit=False)
+    nargs = process_args()
+    unittest.main(argv=sys.argv[nargs:], exit=False)
     Results.print_results()

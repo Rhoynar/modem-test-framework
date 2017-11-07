@@ -1,5 +1,6 @@
 import re
 import unittest
+import sys
 
 import compat
 from plmn.results import *
@@ -56,7 +57,7 @@ class PythonChecks(unittest.TestCase):
             Results.add_state('PySerial', True)
 
 if __name__ == '__main__':
-    process_args()
-    unittest.main(exit=False)
+    nargs = process_args()
+    unittest.main(argv=sys.argv[nargs:], exit=False)
     Results.print_results()
 

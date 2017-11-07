@@ -2,9 +2,11 @@
 
 import compat
 import unittest
+import sys
 
 from plmn.results import *
 from plmn.runner import *
+
 
 
 class DaemonChecks(unittest.TestCase):
@@ -26,6 +28,6 @@ class DaemonChecks(unittest.TestCase):
         self.wwan_interfaces()
 
 if __name__ == '__main__':
-    process_args()
-    unittest.main(exit=False)
+    nargs = process_args()
+    unittest.main(argv=sys.argv[nargs:], exit=False)
     Results.print_results()

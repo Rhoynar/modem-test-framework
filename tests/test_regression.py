@@ -11,7 +11,7 @@ from plmn.utils import *
 from plmn.results import *
 
 if __name__ == '__main__':
-    process_args()
+    nargs = process_args()
 
     suite = unittest.TestSuite()
 

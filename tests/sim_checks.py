@@ -2,6 +2,8 @@
 
 import unittest
 import compat
+import sys
+
 from plmn.results import *
 from plmn.modem_cmds import ModemCmds
 
@@ -17,6 +19,6 @@ class SimChecks(unittest.TestCase):
         ModemCmds.sim_registered()
 
 if __name__ == '__main__':
-    process_args()
-    unittest.main(exit=False)
+    nargs = process_args()
+    unittest.main(argv=sys.argv[nargs:], exit=False)
     Results.print_results()

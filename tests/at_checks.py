@@ -3,6 +3,7 @@
 import compat
 import unittest
 import re
+import sys
 
 from plmn.utils import *
 from plmn.results import *
@@ -114,6 +115,6 @@ class AtCmdChecks(unittest.TestCase):
         AtCmds.perform_manual_register('AT&T')
 
 if __name__ == '__main__':
-    process_args()
-    unittest.main(exit=False)
+    nargs = process_args()
+    unittest.main(argv=sys.argv[nargs:], exit=False)
     Results.print_results()

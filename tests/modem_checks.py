@@ -2,6 +2,7 @@
 
 import compat
 import unittest
+import sys
 
 from plmn.results import *
 
@@ -22,6 +23,6 @@ class ModemChecks(unittest.TestCase):
         ModemCmds.modem_info()
 
 if __name__ == '__main__':
-    process_args()
-    unittest.main(exit=False)
+    nargs = process_args()
+    unittest.main(argv=sys.argv[nargs:], exit=False)
     Results.print_results()
