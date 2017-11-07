@@ -27,13 +27,11 @@ class AtCmds():
         modem_idx = Results.get_state('Modem Index')
         assert modem_idx is not None
         cmd = "mmcli -m {} --command='{}' --timeout={}".format(modem_idx, at_cmd, timeout)
-        if at_dbg:
-            print "AT command: ", cmd
+        logging.debug("AT command: " + str(cmd))
 
         res = Runner.run_cmd(cmd).strip()
 
-        if at_dbg:
-            print "Response: ", res
+        logging.debug("Response: " + str(res))
 
         res = res.replace('\r','|').replace('\n','|')
         match = re.search(r'response: \'(.*)\'', res)
@@ -61,8 +59,7 @@ class AtCmds():
     def unlock_at_cmds(cls):
         if True != Results.get_state('AT Unlocked'):
             res = cls.send_at_cmd('AT!ENTERCND="A710"')
-            if at_dbg:
-                print "AT Unlock Results: ", res
+            logging.debug("AT Unlock Results: " + str(res))
             assert res == '', 'AT unlock command not succesful'
             Results.add_state('AT Unlocked', True)
 

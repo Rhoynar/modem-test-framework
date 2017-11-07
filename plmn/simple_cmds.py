@@ -20,8 +20,7 @@ class SimpleCmds():
         cmd = "mmcli -m {} --simple-status".format(modem_idx)
         res = Runner.run_cmd(cmd).strip()
 
-        if cmd_dbg:
-            print "Response: ", res
+        logging.info("Response: " + str(res))
 
         simple_status = MMCLIParser.parse(res)
         assert simple_status is not {}
@@ -74,11 +73,9 @@ class SimpleCmds():
     @classmethod
     def simple_connect(cls, apn):
         if cls.simple_status_is_connected():
-            if cmd_dbg:
-                print 'Modem is already connected!'
+            logging.info('Modem is already connected!')
         elif cls.simple_status_is_registered():
-            if cmd_dbg:
-                print 'Modem is registered on network. Connecting using APN: ' + apn
+            logging.info('Modem is registered on network. Connecting using APN: ' + apn)
             cls._simple_connect(apn)
             assert cls.simple_status_is_connected()
         else:

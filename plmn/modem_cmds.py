@@ -21,6 +21,7 @@ class ModemCmds:
 
     @classmethod
     def list_modems(cls):
+        logging.info('Listing modems.')
         cls.mmcli_cmd_present()
 
         modem_loc = Results.get_state('Modem Location')
@@ -32,6 +33,9 @@ class ModemCmds:
                 modem_loc = re.search(r'(/org/freedesktop/ModemManager\d/Modem/\d)', mmcli.strip()).group(1)
                 Results.add_state('Modem Location', modem_loc)
                 Results.add_state('Modem Index', re.search(r'/org/freedesktop/ModemManager\d/Modem/(\d)', modem_loc).group(1))
+
+        logging.debug('Modem Location: ' + str(modem_loc))
+        logging.debug('Modem Index: ' + str(Results.get_state('Modem Index')))
         assert modem_loc is not None
 
     @classmethod
@@ -43,8 +47,7 @@ class ModemCmds:
             for idx in range(0,60):
                 mmcli = Runner.run_cmd('mmcli -L')
                 if '/org/freedesktop/ModemManager1/Modem/' not in mmcli:
-                    if cmd_dbg:
-                        print 'Modem not listed yet. Waiting..'
+                    logging.info('Modem not listed yet. Waiting..')
                     time.sleep(1)
                 else:
                     modem_loc = re.search(r'(/org/freedesktop/ModemManager\d/Modem/\d)', mmcli.strip()).group(1)
@@ -59,16 +62,14 @@ class ModemCmds:
         cls.list_modems()
 
         modem_en = Results.get_state('Modem Enabled')
-#        print 'modem_en:', modem_en
         if modem_en is None:
             modem_idx = Results.get_state('Modem Index')
-#            print 'modem_idx', modem_idx
 
             mmcli = Runner.run_cmd('mmcli -m {} --simple-status'.format(modem_idx))
-#            print 'mmcli -m 0 --simple-status results: \n', mmcli
-
             res = MMCLIParser.parse(mmcli)
-#            print 'res:\n', res
+
+            logging.debug('mmcli -m {} --simple-status output'.format(modem_idx))
+            logging.debug(res)
 
             if res is not None and 'Status' in res.keys() and 'state' in res['Status'].keys():
                 if res['Status']['state'] == 'disabled':
@@ -156,8 +157,7 @@ class ModemCmds:
         cls.sim_unlocked()
 
         sim_registered = Results.get_state('SIM Registered')
-        if cmd_dbg:
-            print 'SIM Registered: ', sim_registered
+        logging.info('SIM Registered: ' + str(sim_registered))
 
         if sim_registered is not True:
             modem_idx = Results.get_state('Modem Index')
@@ -266,16 +266,14 @@ class ModemCmds:
 
         # Command to reset device:
         modem_off_cmd = "echo gprs 0 > /dev/ttyACM{}".format(largest_dev_idx)
-        if cmd_dbg:
-            print "Turning OFF Modem using ACM Device command: " + modem_off_cmd
+        logging.info("Turning OFF Modem using ACM Device command: " + modem_off_cmd)
 
         res = Runner.run_cmd(modem_off_cmd)
         time.sleep(5)
 
         # Command to turn-on Modem.
         modem_on_cmd = "echo gprs 1 > /dev/ttyACM{}".format(largest_dev_idx)
-        if cmd_dbg:
-            print "Turning ON Modem using ACM Device command: " + modem_on_cmd
+        logging.info("Turning ON Modem using ACM Device command: " + modem_on_cmd)
         time.sleep(10)
 
         # Perform basics initialization.
