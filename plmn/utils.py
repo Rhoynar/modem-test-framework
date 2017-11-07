@@ -18,14 +18,45 @@ def run_once(f):
     return wrapper
 
 
+class MyFormatter(logging.Formatter):
+    import datetime as dt
+
+    converter = dt.datetime.fromtimestamp
+    err_fmt  = "%(asctime)s | ERR | %(filename)s:%(lineno)s - %(funcName)20s(): %(message)s"
+    dbg_fmt  = "%(asctime)s | DBG | %(filename)s:%(lineno)s - %(funcName)20s(): %(message)s"
+    info_fmt = "%(message)s"
+
+    def __init__(self, fmt="%(levelno)s: %(msg)s"):
+        logging.Formatter.__init__(self, fmt)
+
+    def formatTime(self, record, datefmt=None):
+        ct = self.converter(record.created)
+        if datefmt:
+            s = ct.strftime(datefmt)
+        else:
+            t = ct.strftime("%H:%M:%S")
+            s = "%s.%03d" % (t, record.msecs)
+        return s
+
+    def format(self, record):
+        format_orig = self._fmt
+
+        if record.levelno == logging.DEBUG:
+            self._fmt = MyFormatter.dbg_fmt
+
+        elif record.levelno == logging.INFO:
+            self._fmt = MyFormatter.info_fmt
+
+        elif record.levelno == logging.ERROR:
+            self._fmt = MyFormatter.err_fmt
+
+        result = logging.Formatter.format(self, record)
+        self._fmt = format_orig
+        return result
+
 @run_once
 def setup_log_config():
-    # print 'Clearing test.log file'
-    # with open('test.log', 'w'):
-    #     pass
-
-    _log_format = "%(filename)s:%(lineno)s - %(funcName)20s(): %(message)s"
-    logFormatter = logging.Formatter(_log_format)
+    logFormatter = MyFormatter()
     rootLogger = logging.getLogger()
     rootLogger.setLevel(_log_lvl)
 

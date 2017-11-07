@@ -48,7 +48,7 @@ class Results:
 
     @classmethod
     def reset(cls):
-        logging.info('Reset state.')
+        logging.debug('Reset results state.')
         cls.state.clear()
 
     @classmethod
@@ -58,13 +58,13 @@ class Results:
         logging.info('-------------------------------------------------------------------------------')
         if len(Results.state.keys()) > 0:
             logging.info('-------------------------------------------------------------------------------')
-            logging.info(')                                     STATE')
+            logging.info('                                      STATE')
             logging.info(pprint.pformat(Results.state))
             logging.info('-------------------------------------------------------------------------------')
 
         if len(Results.steps) > 0:
             logging.info('-------------------------------------------------------------------------------')
-            logging.info(')                                     STEPS')
+            logging.info('                                      STEPS')
             for step in Results.steps:
                 logging.info(step)
             logging.info('-------------------------------------------------------------------------------')

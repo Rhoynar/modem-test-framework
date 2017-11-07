@@ -266,14 +266,14 @@ class ModemCmds:
 
         # Command to reset device:
         modem_off_cmd = "echo gprs 0 > /dev/ttyACM{}".format(largest_dev_idx)
-        logging.info("Turning OFF Modem using ACM Device command: " + modem_off_cmd)
+        logging.debug("Turning OFF Modem using ACM Device command: " + modem_off_cmd)
 
         res = Runner.run_cmd(modem_off_cmd)
         time.sleep(5)
 
         # Command to turn-on Modem.
         modem_on_cmd = "echo gprs 1 > /dev/ttyACM{}".format(largest_dev_idx)
-        logging.info("Turning ON Modem using ACM Device command: " + modem_on_cmd)
+        logging.debug("Turning ON Modem using ACM Device command: " + modem_on_cmd)
         time.sleep(10)
 
         # Perform basics initialization.
