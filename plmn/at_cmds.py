@@ -55,6 +55,7 @@ class AtCmds():
                     break
 
         assert at_res is not None
+        return at_res
 
     @classmethod
     def unlock_at_cmds(cls):
