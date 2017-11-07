@@ -169,7 +169,10 @@ class ModemCmds:
                 else:
                     Results.add_state('SIM Registered', False)
 
-        return sim_registered
+        if sim_registered is True:
+            return True
+        else:
+            return False
 
     @classmethod
     def sim_registered(cls):
