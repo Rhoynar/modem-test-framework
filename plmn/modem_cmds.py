@@ -21,7 +21,7 @@ class ModemCmds:
 
     @classmethod
     def list_modems(cls):
-        logging.info('Listing modems.')
+        logging.debug('Listing modems.')
         cls.mmcli_cmd_present()
 
         modem_loc = Results.get_state('Modem Location')
@@ -47,7 +47,7 @@ class ModemCmds:
             for idx in range(0,60):
                 mmcli = Runner.run_cmd('mmcli -L')
                 if '/org/freedesktop/ModemManager1/Modem/' not in mmcli:
-                    logging.info('Modem not listed yet. Waiting..')
+                    logging.debug('Modem not listed yet. Waiting..')
                     time.sleep(1)
                 else:
                     modem_loc = re.search(r'(/org/freedesktop/ModemManager\d/Modem/\d)', mmcli.strip()).group(1)
@@ -157,7 +157,7 @@ class ModemCmds:
         cls.sim_unlocked()
 
         sim_registered = Results.get_state('SIM Registered')
-        logging.info('SIM Registered: ' + str(sim_registered))
+        logging.debug('SIM Registered: ' + str(sim_registered))
 
         if sim_registered is not True:
             modem_idx = Results.get_state('Modem Index')
