@@ -21,7 +21,7 @@ class AtCmds():
         cls.mm_debug_mode()
 
     @classmethod
-    def send_at_cmd(cls, at_cmd, timeout=300):
+    def _try_send_at_cmd(cls, at_cmd, timeout):
         AtCmds.mm_debug_mode()
 
         modem_idx = Results.get_state('Modem Index')
@@ -41,8 +41,20 @@ class AtCmds():
         if match is not None and match.group(1) is not None:
             at_res = match.group(1).strip()
 
-        logging.info('Issuing AT command: {}, Response: \n{}'.format(cmd, at_res.replace('|', '\n')))
         return at_res
+
+    @classmethod
+    def send_at_cmd(cls, at_cmd, timeout=300):
+        at_res = cls._try_send_at_cmd(at_cmd, timeout)
+        if at_res is None:
+            for idx in range(0,2):
+                time.sleep(1)
+                # Some error occurred in AT command processing. Retry (upto 3 times)
+                at_res = cls._try_send_at_cmd(at_cmd, timeout)
+                if at_res is not None:
+                    break
+
+        assert at_res is not None
 
     @classmethod
     def unlock_at_cmds(cls):
