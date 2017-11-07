@@ -5,6 +5,8 @@ from utils import *
 from results import *
 from runner import Runner
 from mmcli_parser import MMCLIParser
+from at_cmds import *
+
 import time
 
 class ModemCmds:
@@ -39,7 +41,7 @@ class ModemCmds:
 
         modem_loc = Results.get_state('Modem Location')
         if modem_loc is None:
-            for idx in range(0,30):
+            for idx in range(0,60):
                 mmcli = Runner.run_cmd('mmcli -L')
                 if '/org/freedesktop/ModemManager1/Modem/' not in mmcli:
                     if cmd_dbg:
@@ -235,7 +237,11 @@ class ModemCmds:
         time.sleep(10)
 
     @classmethod
-    def restart_modem(cls):
+    def restart_modem_sometimes_does_not_work(cls):
+        # works in most scenarios.
+        # But sometimes this does not work if /dev/ttyACM device is busy.
+        # Use the other method using AT commands (AT!GRESET) it works always.
+
         # Find the highest index /dev/ttyACM* device.
         res = Runner.run_cmd('ls /dev/ttyACM*').strip()
         devs = re.findall(r'/dev/ttyACM\d', res)
@@ -264,6 +270,17 @@ class ModemCmds:
         cls.mmcli_cmd_present()
         cls.list_modem_wait()
 
+    @classmethod
+    def restart_modem(cls):
+        cls.list_modem_wait()
+        modem_idx = Results.get_state('Modem Index')
+        assert modem_idx is not None
+
+        AtCmds.unlock_at_cmds()
+        res = AtCmds.send_at_cmd('AT!GRESET')
+
+        Results.reset()
+        cls.list_modem_wait()
 
 if __name__ == '__main__':
     ModemCmds.modem_enabled()
