@@ -60,6 +60,8 @@ class AtCmds():
     def unlock_at_cmds(cls):
         if True != Results.get_state('AT Unlocked'):
             res = cls.send_at_cmd('AT!ENTERCND="A710"')
+            if at_dbg:
+                print "AT Unlock Results: ", res
             assert res == '', 'AT unlock command not succesful'
             Results.add_state('AT Unlocked', True)
 
