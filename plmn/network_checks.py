@@ -26,7 +26,7 @@ class NetworkChecks():
         AtCmds.set_apn_name_in_profile(1, apn_name)
 
         # Restart Modem. (put in Low Power mode and back online)
-        ModemCmds.restart_modem()
+        AtCmds.restart_modem()
 
         # Perform mode lpm/online
         ModemCmds.mode_lpm_online()

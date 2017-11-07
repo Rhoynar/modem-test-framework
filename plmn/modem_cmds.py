@@ -5,7 +5,6 @@ from utils import *
 from results import *
 from runner import Runner
 from mmcli_parser import MMCLIParser
-from at_cmds import *
 
 import time
 
@@ -268,18 +267,6 @@ class ModemCmds:
         # Perform basics initialization.
         Results.reset()
         cls.mmcli_cmd_present()
-        cls.list_modem_wait()
-
-    @classmethod
-    def restart_modem(cls):
-        cls.list_modem_wait()
-        modem_idx = Results.get_state('Modem Index')
-        assert modem_idx is not None
-
-        AtCmds.unlock_at_cmds()
-        res = AtCmds.send_at_cmd('AT!GRESET')
-
-        Results.reset()
         cls.list_modem_wait()
 
 if __name__ == '__main__':

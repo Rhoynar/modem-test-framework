@@ -118,3 +118,15 @@ class AtCmds():
         # Register manually on the given network.
         res = cls.send_at_cmd('AT+COPS=1,0,"{}"'.format(network_name))
         assert res is not None
+
+    @classmethod
+    def restart_modem(cls):
+        ModemCmds.list_modem_wait()
+        modem_idx = Results.get_state('Modem Index')
+        assert modem_idx is not None
+
+        cls.unlock_at_cmds()
+        res = cls.send_at_cmd('AT!GRESET')
+
+        Results.reset()
+        ModemCmds.list_modem_wait()
