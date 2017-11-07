@@ -35,14 +35,15 @@ class NetworkChecks():
             if sim_reg is False:
                 ModemCmds.mode_lpm_online()
 
-            # Perform 3GPP scan if still not registered.
-            sim_reg = ModemCmds.is_sim_registered()
-            if sim_reg is False:
-                AtCmds.perform_3gpp_scan()
-
             # Perform auto-register.
             sim_reg = ModemCmds.is_sim_registered()
             if sim_reg is False:
+                AtCmds.perform_auto_register()
+
+            # Perform 3GPP scan and try auto-register again.
+            sim_reg = ModemCmds.is_sim_registered()
+            if sim_reg is False:
+                AtCmds.perform_3gpp_scan()
                 AtCmds.perform_auto_register()
 
             if sim_reg is True:
