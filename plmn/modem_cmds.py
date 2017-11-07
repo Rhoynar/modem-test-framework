@@ -168,14 +168,16 @@ class ModemCmds:
                     Results.add_state('SIM Registered', sim_registered)
                 else:
                     Results.add_state('SIM Registered', False)
-                    Results.add_error('mmcli -m {}'.format(modem_idx) + ' | grep state',
-                                      'SIM card not registered. Please restart modem manager using: sudo stop modemmanager && sudo start modemmanager')
 
         return sim_registered
 
     @classmethod
     def sim_registered(cls):
         sim_reg = cls.is_sim_registered()
+        if sim_reg is False:
+            Results.add_error('mmcli -m 0 | grep state',
+                              'SIM card not registered. Please restart modem manager using: sudo stop modemmanager && sudo start modemmanager')
+
         assert sim_reg is True, 'SIM is not yet Registered'
 
     @classmethod
