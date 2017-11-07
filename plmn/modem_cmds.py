@@ -229,7 +229,8 @@ class ModemCmds:
     def modem_sanity(cls):
         cls.mmcli_cmd_present()
         cls.modem_enabled()
-        cls.sim_registered()
+        cls.sim_present()
+        cls.sim_unlocked()
 
 
     # Uses MMCLI commands to put modem into Low power mode (LPM) and back online.
