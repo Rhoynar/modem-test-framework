@@ -49,7 +49,7 @@ class Results:
     @classmethod
     def reset(cls):
         logging.info('Reset state.')
-        cls.state = {}
+        cls.state.clear()
 
     @classmethod
     def print_results(cls):
