@@ -8,6 +8,7 @@ from plmn.results import *
 from plmn.modem_cmds import ModemCmds
 from plmn.runner import *
 from plmn.at_cmds import *
+from plmn.simple_cmds import *
 
 class NetworkChecks():
 
@@ -58,6 +59,10 @@ class NetworkChecks():
     @classmethod
     def network_register(cls, network_name, apn_name):
         cls._network_register_using_at(network_name, apn_name)
+
+    @classmethod
+    def network_connect(cls, network_name, apn_name):
+        SimpleCmds.simple_connect(apn_name)
 
 if __name__ == '__main__':
     NetworkChecks.network_register('AT&T', 'broadband')

@@ -59,5 +59,27 @@ class SimpleCmds():
                 return True
         return False
 
+    @classmethod
+    def _simple_connect(cls, apn):
+        modem_idx = Results.get_state('Modem Index')
+        assert modem_idx is not None
 
+        cmd = 'mmcli -m {} --simple-connect="apn={}"'.format(modem_idx, apn)
+        res = Runner.run_cmd(cmd).strip()
 
+        time.sleep(2)
+
+        cls.simple_status_cmd()
+
+    @classmethod
+    def simple_connect(cls, apn):
+        if cls.simple_status_is_connected():
+            if cmd_dbg:
+                print 'Modem is already connected!'
+        elif cls.simple_status_is_registered():
+            if cmd_dbg:
+                print 'Modem is registered on network. Connecting using APN: ' + apn
+            cls._simple_connect(apn)
+            assert cls.simple_status_is_connected()
+        else:
+            assert 0, 'Modem not registered, cannot perform simple-connect'
