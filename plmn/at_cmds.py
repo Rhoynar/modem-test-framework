@@ -30,7 +30,7 @@ class AtCmds():
 
         logging.debug("AT command: " + str(cmd))
         res = Runner.run_cmd(cmd).strip()
-        logging.debug("Response: " + str(res))
+        logging.debug("Response: \n" + str(res))
 
         res = res.replace('\r','|').replace('\n','|')
         match = re.search(r'response: \'(.*)\'', res)

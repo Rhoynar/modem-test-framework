@@ -104,5 +104,5 @@ ENV/
 # PyCharm
 .idea/
 
-# JSON
-*.json
+# Test Results JSON
+tests/test-results.json
