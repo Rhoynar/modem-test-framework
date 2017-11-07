@@ -151,7 +151,7 @@ class ModemCmds:
         assert sim_unlocked is True
 
     @classmethod
-    def sim_registered(cls):
+    def is_sim_registered(cls):
         cls.sim_present()
         cls.sim_unlocked()
 
@@ -171,7 +171,12 @@ class ModemCmds:
                     Results.add_error('mmcli -m {}'.format(modem_idx) + ' | grep state',
                                       'SIM card not registered. Please restart modem manager using: sudo stop modemmanager && sudo start modemmanager')
 
-        assert sim_registered is True
+        return sim_registered
+
+    @classmethod
+    def sim_registered(cls):
+        sim_reg = cls.is_sim_registered()
+        assert sim_reg is True, 'SIM is not yet Registered'
 
     @classmethod
     def modem_manager_is_running(cls):

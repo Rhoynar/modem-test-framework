@@ -28,17 +28,28 @@ class NetworkChecks():
         # Restart Modem. (put in Low Power mode and back online)
         AtCmds.restart_modem()
 
-        # Perform mode lpm/online
-        ModemCmds.mode_lpm_online()
+        for idx in range(0, 5):
+            # Perform LPM/Online if still not registered.
+            sim_reg = ModemCmds.is_sim_registered()
+            if sim_reg is False:
+                ModemCmds.mode_lpm_online()
 
-        # Perform 3GPP scan
-        AtCmds.perform_3gpp_scan()
+            # Perform 3GPP scan if still not registered.
+            sim_reg = ModemCmds.is_sim_registered()
+            if sim_reg is False:
+                AtCmds.perform_3gpp_scan()
+
+            # Perform auto-register.
+            sim_reg = ModemCmds.is_sim_registered()
+            if sim_reg is False:
+                AtCmds.perform_auto_register()
+
+            if sim_reg is True:
+                break
 
         # Perform manual register
         # AtCmds.perform_manual_register(network_name)
 
-        # Perform auto-register.
-        AtCmds.perform_auto_register()
 
         # Ensure modem is registered now.
         ModemCmds.modem_enabled()
