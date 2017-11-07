@@ -1,11 +1,9 @@
 import logging
 
 # Setup debug variables.
-_console_dbg = True
 _log_lvl = 'DEBUG'
 
 # For minimal logging, use this setting:
-# _console_dbg = False
 # _log_lvl = 'DEBUG'
 
 
@@ -67,15 +65,13 @@ def setup_log_config():
     rootLogger.addHandler(fileHandler)
 
 def process_args():
-    global _console_dbg
     import argparse
 
     parser = argparse.ArgumentParser('PLMN Regression Test Cases')
-    parser.add_argument('--debug', action='store_true', help='Print debug message to screen.')
-    results = parser.parse_args()
-    _console_dbg = results.debug
+    parser.add_argument('-d', '--debug', action='store_true', help='Print debug message to screen.')
+    args, unknown = parser.parse_known_args()
 
-    if _console_dbg:
+    if args.debug:
         logFormatter = MyFormatter()
         rootLogger = logging.getLogger()
         consoleHandler = logging.StreamHandler()
@@ -83,10 +79,11 @@ def process_args():
         rootLogger.addHandler(consoleHandler)
         logging.info(' ----------------------  RUNNING TESTS IN DEBUG MODE  ------------------------ ')
 
-    # Return the number of arguments processed.
-    if results.debug:
+        # Return the number of arguments processed.
         return 1
+
     else:
+        # Return indicating that no arguments were processed.
         return 0
 
 
