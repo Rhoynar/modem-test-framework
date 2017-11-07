@@ -127,6 +127,7 @@ class AtCmds():
 
         cls.unlock_at_cmds()
         res = cls.send_at_cmd('AT!GRESET')
+        time.sleep(5)
 
         Results.reset()
         ModemCmds.list_modem_wait()
