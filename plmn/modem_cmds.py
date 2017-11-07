@@ -159,7 +159,7 @@ class ModemCmds:
         if cmd_dbg:
             print 'SIM Registered: ', sim_registered
 
-        if sim_registered is None:
+        if sim_registered is not True:
             modem_idx = Results.get_state('Modem Index')
             assert modem_idx is not None
 
