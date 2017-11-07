@@ -26,6 +26,7 @@ class PythonChecks(unittest.TestCase):
             Results.add_state('Python Major Version', python_ver_major.strip())
             Results.add_state('Python Minor Version', python_ver_minor.strip())
 
+    @unittest.skip('Not required for regression (Sudo is not required)')
     def test_check_sudo_permissions(self):
         username = os.getenv('SUDO_USER')
         if username is None:
@@ -33,6 +34,7 @@ class PythonChecks(unittest.TestCase):
         else:
             Results.add_state('SUDO_USER', username.strip())
 
+    @unittest.skip('Not required for regression (PIP is not required for now)')
     def test_check_pip(self):
         pip = Runner.run_cmd('which pip').strip()
 
@@ -41,6 +43,7 @@ class PythonChecks(unittest.TestCase):
         else:
             Results.add_state('pip', pip)
 
+    @unittest.skip('Not required for regression (Pyserial is not required)')
     def test_pip_pacakages(self):
         # Check if required pip packages exist
         pip_pkgs = Runner.run_cmd('pip freeze')
