@@ -53,13 +53,13 @@ The following steps show the various ways to use this project.
 
     Or run with debug option:
 
-    ```python modem_checks.py --debug``
+    ```python modem_checks.py --debug```
 
 * Running Regression Test Suite:
     
     We can run all the regression tests in one go by running the regression python module.
 
-    ```python test_regression.py``
+    ```python test_regression.py```
 
 * Running Registration Scenarios:
 
