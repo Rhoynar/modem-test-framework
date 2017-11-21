@@ -26,7 +26,7 @@ class AtCmds():
         for idx in range(0,3):
             modem_idx = Results.get_state('Modem Index')
             assert modem_idx is not None
-            cmd = "mmcli -m {} --3gpp-scan --timeout={}".format(modem_idx, timeout)
+            cmd = "mmcli -m {} --3gpp-scan --timeout={}".format(modem_idx, timeout + 60*idx)
 
             logging.debug("3GPP Scan command: " + str(cmd))
             res = Runner.run_cmd(cmd).strip()
