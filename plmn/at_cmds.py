@@ -22,13 +22,19 @@ class AtCmds():
 
     @classmethod
     def _try_3gpp_scan(cls, timeout=300):
-        modem_idx = Results.get_state('Modem Index')
-        assert modem_idx is not None
-        cmd = "mmcli -m {} --3gpp-scan --timeout={}".format(modem_idx, timeout)
 
-        logging.debug("3GPP Scan command: " + str(cmd))
-        res = Runner.run_cmd(cmd).strip()
-        logging.debug("Response: \n" + str(res))
+        for idx in range(0,3):
+            modem_idx = Results.get_state('Modem Index')
+            assert modem_idx is not None
+            cmd = "mmcli -m {} --3gpp-scan --timeout={}".format(modem_idx, timeout)
+
+            logging.debug("3GPP Scan command: " + str(cmd))
+            res = Runner.run_cmd(cmd).strip()
+            logging.debug("Response: \n" + str(res))
+
+            if "couldn't scan networks in the modem" not in res:
+                break
+
 
     @classmethod
     def _try_send_at_cmd(cls, at_cmd, timeout):
