@@ -21,6 +21,16 @@ class AtCmds():
         cls.mm_debug_mode()
 
     @classmethod
+    def _try_3gpp_scan(cls, timeout=300):
+        modem_idx = Results.get_state('Modem Index')
+        assert modem_idx is not None
+        cmd = "mmcli -m {} --3gpp-scan --timeout={}".format(modem_idx, timeout)
+
+        logging.debug("3GPP Scan command: " + str(cmd))
+        res = Runner.run_cmd(cmd).strip()
+        logging.debug("Response: \n" + str(res))
+
+    @classmethod
     def _try_send_at_cmd(cls, at_cmd, timeout):
         AtCmds.mm_debug_mode()
 
@@ -88,7 +98,7 @@ class AtCmds():
         assert res is not None
 
         # Perform Network Scan (default timeout of 300 sounds good)
-        res = cls.send_at_cmd('AT+COPS=?')
+        res = cls._try_3gpp_scan()
         assert res is not None
 
     @classmethod
